@@ -27,7 +27,6 @@ from sklearn import linear_model
 from sklearn.decomposition import PCA
 from scipy.stats import norm
 
-# tf.compat.v1.disable_eager_execution()
 
 class Treatment(Model):
     '''
