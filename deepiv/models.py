@@ -27,26 +27,26 @@ from sklearn.decomposition import PCA
 from scipy.stats import norm
 
 
-# targets = K.reshape(model.targets[0], (batch_size, n_samples * 2))
-# output =  K.mean(K.reshape(model.outputs[0], (batch_size, n_samples, 2)), axis=1)
-# # compute d Loss / d output
-# dL_dOutput = (output[:,0] - targets[:,0]) * (2.) / batch_size
-# # compute (d Loss / d output) (d output / d theta) for each theta
-# trainable_weights = model.trainable_weights
-# grads = Lop(output[:,1], wrt=trainable_weights, eval_points=dL_dOutput) 
-# # compute regularizer gradients
 
-# # add loss with respect to regularizers
-# reg_loss = model.total_loss * 0.
-# for r in model.losses:
-#      reg_loss += r
-# reg_grads = K.gradients(reg_loss, trainable_weights)
-# grads = [g+r for g,r in zip(grads, reg_grads)]
     
 
 def new_loss(y_true, y_pred):
-    squared_difference = tf.square(y_true - y_pred)
-    return tf.reduce_mean(squared_difference, axis=-1)  # Note the `axis=-1`
+    (batch_size, n_samples)= y_true.shape
+    targets = K.reshape(y_true[0], (batch_size, n_samples * 2))
+    output =  K.mean(K.reshape(y_pred[0], (batch_size, n_samples, 2)), axis=1)
+    # compute d Loss / d output
+    dL_dOutput = (output[:,0] - targets[:,0]) * (2.) / batch_size
+    # compute (d Loss / d output) (d output / d theta) for each theta
+    trainable_weights = model.trainable_weights
+    grads = Lop(output[:,1], wrt=trainable_weights, eval_points=dL_dOutput) 
+    # compute regularizer gradients
+
+    # add loss with respect to regularizers
+    reg_loss = model.total_loss * 0.
+    for r in model.losses:
+         reg_loss += r
+    reg_grads = K.gradients(reg_loss, trainable_weights)
+    grads = [g+r for g,r in zip(grads, reg_grads)]
 
 class Treatment(Model):
     '''
