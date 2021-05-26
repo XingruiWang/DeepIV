@@ -19,7 +19,7 @@
      
 -->
 
-##### A reimplement of "deep instrument variable methods" by the LATEST tensorflow and keras
+##### A implementing of "deep instrument variable methods" by the LATEST tensorflow and keras
 
 (My CUDA version is 10.1, so here I use the tensorflow 2.3.0)
 
