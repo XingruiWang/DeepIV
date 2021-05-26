@@ -17,8 +17,9 @@ DeepIV
      :target: https://pyup.io/repos/github/jhartford/deepiv/
      :alt: Updates
 
+**A reimplement of "deep instrument variable methods" by the *latest* tensorflow and keras**
 
-IMPORTANT: Newer versions of Keras have broken this implementation. This code currently only support Keras 2.0.6 (which is what will be installed if you use the pip install instructions described below).
+(My CUDA version is 10.1, so here I use the tensorflow 2.3.0)
 
 A package for counterfactual prediction using deep instrument variable methods that builds on Keras_. 
 
