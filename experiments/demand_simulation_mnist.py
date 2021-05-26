@@ -39,6 +39,7 @@ dropout_rate = min(1000./(1000. + n), 0.5)
 embedding_dropout = 0.1
 embedding_l2 = 0.1
 epochs = int(1500000./float(n))
+epochs = 3
 batch_size = 100
 
 x, z, t, y, g_true = data_generator.demand(n=n, seed=1, ypcor=0.5, use_images=True, test=False)

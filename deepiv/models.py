@@ -27,6 +27,27 @@ from sklearn.decomposition import PCA
 from scipy.stats import norm
 
 
+# targets = K.reshape(model.targets[0], (batch_size, n_samples * 2))
+# output =  K.mean(K.reshape(model.outputs[0], (batch_size, n_samples, 2)), axis=1)
+# # compute d Loss / d output
+# dL_dOutput = (output[:,0] - targets[:,0]) * (2.) / batch_size
+# # compute (d Loss / d output) (d output / d theta) for each theta
+# trainable_weights = model.trainable_weights
+# grads = Lop(output[:,1], wrt=trainable_weights, eval_points=dL_dOutput) 
+# # compute regularizer gradients
+
+# # add loss with respect to regularizers
+# reg_loss = model.total_loss * 0.
+# for r in model.losses:
+#      reg_loss += r
+# reg_grads = K.gradients(reg_loss, trainable_weights)
+# grads = [g+r for g,r in zip(grads, reg_grads)]
+    
+
+def new_loss(y_true, y_pred):
+    squared_difference = tf.square(y_true - y_pred)
+    return tf.reduce_mean(squared_difference, axis=-1)  # Note the `axis=-1`
+
 class Treatment(Model):
     '''
     Adds sampling functionality to a Keras model and extends the losses to support
@@ -183,7 +204,7 @@ class Response(Model):
                              treatment model first." % type(treatment))
         
 
-    def compile(self, optimizer, loss, metrics=None, loss_weights=None, sample_weight_mode=None,
+    def compile_old(self, optimizer, loss, metrics=None, loss_weights=None, sample_weight_mode=None,
                 unbiased_gradient=False,n_samples=1, batch_size=None):
         super(Response, self).compile(optimizer=optimizer, loss=loss, loss_weights=loss_weights,
                                       sample_weight_mode=sample_weight_mode)
@@ -197,6 +218,21 @@ class Response(Model):
                 warnings.warn("Unbiased gradient only implemented for mean square error loss. It is unnecessary for\
                               logistic losses and currently not implemented for absolute error losses.")
             
+    def compile(self, optimizer, loss, metrics=None, loss_weights=None, sample_weight_mode=None,
+                unbiased_gradient=False,n_samples=1, batch_size=None):
+
+        self.unbiased_gradient = unbiased_gradient
+        if unbiased_gradient:
+            if loss in ["MSE", "mse", "mean_squared_error"]:
+                if batch_size is None:
+                    raise ValueError("Must supply a batch_size argument if using unbiased gradients. Currently batch_size is None.")
+                loss = new_loss
+                # replace_gradients_mse(self, optimizer, batch_size=batch_size, n_samples=n_samples)
+            else:
+                warnings.warn("Unbiased gradient only implemented for mean square error loss. It is unnecessary for\
+                              logistic losses and currently not implemented for absolute error losses.")
+        super(Response, self).compile(optimizer=optimizer, loss=loss, loss_weights=loss_weights,
+                                      sample_weight_mode=sample_weight_mode)            
 
     def fit(self, x=None, y=None, batch_size=512, epochs=1, verbose=1, callbacks=None,
             validation_data=None, class_weight=None, initial_epoch=0, samples_per_batch=None,
