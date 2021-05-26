@@ -28,7 +28,7 @@
 - First you need to **clone** the github source:
 
 ```sh
-git clone https://github.com/XingruiWang/DeepIV-tf2.git
+git clone https://github.com/XingruiWang/DeepIV.git
 ```
 
 - To use DeepIV, you can simply **naviage to the DeepIV directory** on your machine and **run**:
