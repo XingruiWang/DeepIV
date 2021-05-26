@@ -11,7 +11,6 @@ import tensorflow as tf
 from tensorflow.keras.models import Model
 
 from tensorflow.keras import backend as K
-# from tensorflow.python.keras import backend as K2 
 from tensorflow.keras.layers import Lambda, InputLayer
 # from tensorflow.keras.engine import topology
 try:
