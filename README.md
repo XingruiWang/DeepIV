@@ -23,6 +23,11 @@
 
 (My CUDA version is 10.1, so here I use the tensorflow 2.3.0)
 
+### Installation by source
+
+To use DeepIV, you can simply naviage to to the DeepIV directory on your machine and run:
+
+        pip install .
 ---
 
 # DeepIV (The original document)
