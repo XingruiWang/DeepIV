@@ -40,7 +40,6 @@ git clone https://github.com/XingruiWang/DeepIV.git
 
 - `tensorflow==2.3.0`
 - `keras==2.3.1`
-- `tensorflow_probability=0.11`
 - `python=3.7`
 
 ---
