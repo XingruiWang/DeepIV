@@ -12,6 +12,7 @@ with open('HISTORY.rst') as history_file:
 requirements = [
     "keras==2.3.1",
     "tensorflow==2.3",
+    "tensorflow_probability==0.11",
     "sklearn", # required for comparing to linear
     "h5py" # required for saving models
 ]
@@ -29,7 +30,7 @@ setup(
     version='0.1.1',
     description="A package for counterfactual prediction using deep instrument variable methods",
     long_description=readme + '\n\n' + history,
-    author="Jason Hartford",
+    author="Jason Hartford, Xingrui Wang",
     author_email='jasonhar@cs.ubc.ca',
     url='https://github.com/jhartford/deepiv',
     packages=[
