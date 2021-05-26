@@ -25,7 +25,8 @@
 
 ---
 
-## The original document
+# DeepIV
+(The original document)
 
 A package for counterfactual prediction using deep instrument variable methods that builds on Keras_. 
 
