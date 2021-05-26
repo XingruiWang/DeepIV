@@ -8,9 +8,9 @@ import deepiv.densities as densities
 
 import tensorflow as tf
 
-from keras.layers import Input, Dense
-from keras.models import Model
-from keras.layers.merge import Concatenate
+from tensorflow.keras.layers import Input, Dense
+from tensorflow.keras.models import Model
+from tensorflow.keras.layers import Concatenate
 
 import numpy
 
@@ -19,7 +19,7 @@ import data_generator
 n = 5000
 dropout_rate = min(1000./(1000. + n), 0.5)
 epochs = int(1500000./float(n)) # heuristic to select number of epochs
-epochs = 300
+epochs = 30
 batch_size = 100
 images = False
 
@@ -50,7 +50,7 @@ est_treat = architectures.feed_forward_net(treatment_input, lambda x: densities.
                                            hidden_layers=hidden,
                                            dropout_rate=dropout_rate, l2=0.0001,
                                            activations=act)
-
+#print("Input", instruments.shape)
 treatment_model = Treatment(inputs=[instruments, features], outputs=est_treat)
 treatment_model.compile('adam',
                         loss="mixture_of_gaussians",

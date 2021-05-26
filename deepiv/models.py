@@ -7,23 +7,25 @@ import deepiv.samplers as samplers
 import deepiv.densities as densities
 
 from deepiv.custom_gradients import replace_gradients_mse
-
-from keras.models import Model
-from keras import backend as K
-from keras.layers import Lambda, InputLayer
-from keras.engine import topology
+import tensorflow as tf
+from tensorflow.keras.models import Model
+from tensorflow.keras import backend as K
+from tensorflow.keras.layers import Lambda, InputLayer
+# from tensorflow.keras.engine import topology
 try:
     import h5py
 except ImportError:
     h5py = None
 
 
-import keras.utils
+import tensorflow.keras.utils
 
 import numpy
 from sklearn import linear_model
 from sklearn.decomposition import PCA
 from scipy.stats import norm
+
+tf.compat.v1.disable_eager_execution()
 
 class Treatment(Model):
     '''
@@ -75,7 +77,9 @@ class Treatment(Model):
         elif loss == "mixture_of_gaussians":
             pi, mu, log_sig = densities.split_mixture_of_gaussians(output, self.n_components)
             samples = samplers.random_gmm(pi, mu, K.exp(log_sig))
+
             draw_sample = K.function(inputs + [K.learning_phase()], [samples])
+
             return lambda inputs, use_dropout: draw_sample(inputs + [int(use_dropout)])[0]
 
         else:
@@ -152,13 +156,14 @@ class Response(Model):
     distriubtion during training.
     '''
     def __init__(self, treatment, **kwargs):
+        super(Response, self).__init__(**kwargs)
         if isinstance(treatment, Treatment):
             self.treatment = treatment
         else:
             raise TypeError("Expected a treatment model of type Treatment. \
                              Got a model of type %s. Remember to train your\
                              treatment model first." % type(treatment))
-        super(Response, self).__init__(**kwargs)
+        
 
     def compile(self, optimizer, loss, metrics=None, loss_weights=None, sample_weight_mode=None,
                 unbiased_gradient=False,n_samples=1, batch_size=None):
@@ -201,12 +206,13 @@ class Response(Model):
             generator = OnesidedUnbaised(x[1:], x[0], y, observed_treatments, batch_size,
                                          self.treatment.sample, samples_per_batch)
         
-        steps_per_epoch = y.shape[0]  // batch_size
-        super(Response, self).fit_generator(generator=generator,
-                                            steps_per_epoch=steps_per_epoch,
-                                            epochs=epochs, verbose=verbose,
-                                            callbacks=callbacks, validation_data=validation_data,
-                                            class_weight=class_weight, initial_epoch=initial_epoch)
+        steps_per_epoch = int(y.shape[0]  // batch_size)
+
+        super(Response, self).fit(generator,
+                                steps_per_epoch=steps_per_epoch,
+                                epochs=epochs, verbose=verbose,
+                                callbacks=callbacks, validation_data=validation_data,
+                                class_weight=class_weight, initial_epoch=initial_epoch)
 
     def fit_generator(self, **kwargs):
         '''
@@ -332,7 +338,7 @@ class Response(Model):
 
 
 
-class SampledSequence(keras.utils.Sequence):
+class SampledSequence(tensorflow.keras.utils.Sequence):
     def __init__(self, features, instruments, outputs, batch_size, sampler, n_samples=1, seed=None):
         self.rng = numpy.random.RandomState(seed)
         if not isinstance(features, list):
@@ -415,9 +421,9 @@ def load_weights(filepath, model):
     if h5py is None:
         raise ImportError('`load_weights` requires h5py.')
 
-    with h5py.File(filepath, mode='r') as f:
+    # with h5py.File(filepath, mode='r') as f:
         # set weights
-        topology.load_weights_from_hdf5_group(f['model_weights'], model.layers)
-
+    #    topology.load_weights_from_hdf5_group(f['model_weights'], model.layers)
+    model.load_weights(filepath)
     return model
 

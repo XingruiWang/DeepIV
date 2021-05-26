@@ -1,7 +1,7 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 
-import keras
-from keras import backend as K
+import tensorflow.keras
+from tensorflow.keras import backend as K
 if K.backend() == "theano":
     import theano.tensor as tensor
     Lop = tensor.Lop

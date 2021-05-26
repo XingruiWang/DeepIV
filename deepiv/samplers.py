@@ -1,8 +1,10 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 
+import tensorflow as tf
+import tensorflow_probability as tfp
 import numpy
-from keras import backend as K
-from keras.engine.topology import InputLayer
+from tensorflow.keras import backend as K
+# from tensorflow.keras.layers import InputLayer
 
 if K.backend() == "theano":
     from theano.sandbox.rng_mrg import MRG_RandomStreams as RandomStreams
@@ -32,8 +34,11 @@ def random_multinomial(logits, seed=None):
         rng = RandomStreams(seed=seed)
         return rng.multinomial(n=1, pvals=logits, ndim=None, dtype=_FLOATX)
     elif K.backend() == "tensorflow":
-        return tf.one_hot(tf.squeeze(tf.multinomial(K.log(logits), num_samples=1)),
-                          int(logits.shape[1]))
+        print(K.log(logits).shape)
+        samples_multi = tf.compat.v1.multinomial(logits=K.log(logits), num_samples=1)
+        # smples_multi = tfp.distributions.Multinomial(total_count=1,logits=K.log(logits)).sample(1)
+        sample_squeeze = tf.squeeze(samples_multi)
+        return tf.one_hot(sample_squeeze, int(logits.shape[1]))
 
 def random_gmm(pi, mu, sig):
     '''
@@ -42,6 +47,8 @@ def random_gmm(pi, mu, sig):
     the matrices n times if you want to get n samples), but makes it easy to implment
     code where the parameters vary as they are conditioned on different datapoints.
     '''
+    print("--------------------------------------")
+    print(type(pi), pi.shape)
     normals = random_normal(K.shape(mu), mu, sig)
     k = random_multinomial(pi)
     return K.sum(normals * k, axis=1, keepdims=True)
