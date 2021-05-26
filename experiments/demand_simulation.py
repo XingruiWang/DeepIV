@@ -19,7 +19,7 @@ import data_generator
 n = 5000
 dropout_rate = min(1000./(1000. + n), 0.5)
 epochs = int(1500000./float(n)) # heuristic to select number of epochs
-epochs = 30
+epochs = 300
 batch_size = 100
 images = False
 
