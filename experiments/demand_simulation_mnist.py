@@ -6,10 +6,10 @@ from deepiv.models import Treatment, Response
 import deepiv.architectures as architectures
 import deepiv.densities as densities
 
-from keras.layers import Input, Dense, Reshape
-from keras.models import Model
-from keras.layers.merge import Concatenate
-import keras.backend as K
+from tensorflow.keras.layers import Input, Dense, Reshape
+from tensorflow.keras.models import Model
+from tensorflow.keras.layers import Concatenate
+import tensorflow.keras.backend as K
 
 import numpy
 

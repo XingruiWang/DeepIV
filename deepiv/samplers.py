@@ -1,7 +1,6 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 import tensorflow as tf
-import tensorflow_probability as tfp
 import numpy
 from tensorflow.keras import backend as K
 # from tensorflow.keras.layers import InputLayer
@@ -34,7 +33,6 @@ def random_multinomial(logits, seed=None):
         rng = RandomStreams(seed=seed)
         return rng.multinomial(n=1, pvals=logits, ndim=None, dtype=_FLOATX)
     elif K.backend() == "tensorflow":
-        print(K.log(logits).shape)
         samples_multi = tf.compat.v1.multinomial(logits=K.log(logits), num_samples=1)
         # smples_multi = tfp.distributions.Multinomial(total_count=1,logits=K.log(logits)).sample(1)
         sample_squeeze = tf.squeeze(samples_multi)
@@ -47,8 +45,6 @@ def random_gmm(pi, mu, sig):
     the matrices n times if you want to get n samples), but makes it easy to implment
     code where the parameters vary as they are conditioned on different datapoints.
     '''
-    print("--------------------------------------")
-    print(type(pi), pi.shape)
     normals = random_normal(K.shape(mu), mu, sig)
     k = random_multinomial(pi)
     return K.sum(normals * k, axis=1, keepdims=True)
