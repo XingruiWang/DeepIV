@@ -9,7 +9,9 @@ import deepiv.densities as densities
 from deepiv.custom_gradients import replace_gradients_mse
 import tensorflow as tf
 from tensorflow.keras.models import Model
+
 from tensorflow.keras import backend as K
+# from tensorflow.python.keras import backend as K2 
 from tensorflow.keras.layers import Lambda, InputLayer
 # from tensorflow.keras.engine import topology
 try:
@@ -25,7 +27,7 @@ from sklearn import linear_model
 from sklearn.decomposition import PCA
 from scipy.stats import norm
 
-tf.compat.v1.disable_eager_execution()
+# tf.compat.v1.disable_eager_execution()
 
 class Treatment(Model):
     '''
@@ -78,9 +80,27 @@ class Treatment(Model):
             pi, mu, log_sig = densities.split_mixture_of_gaussians(output, self.n_components)
             samples = samplers.random_gmm(pi, mu, K.exp(log_sig))
 
-            draw_sample = K.function(inputs + [K.learning_phase()], [samples])
+            draw_sample = Model(inputs = inputs, outputs = [samples]) # symbolic_learning_phase
 
-            return lambda inputs, use_dropout: draw_sample(inputs + [int(use_dropout)])[0]
+            def sample_gmm(inputs, use_dropout=False):
+                '''
+                Helper to draw samples from a Laplacian distribution
+
+                Another option is:                
+                >>> draw_sample = K.function(inputs, [samples])
+                >>> with K.set_learning_phase(int(use_dropout)):
+                ...    return draw_sample(inputs + [int(use_dropout)])[0]
+
+                For the follow `draw_sample`, the return is not a list anymore, so I no longer use `outs[0]`.
+                if you want to use the list, please look it up in https://github.com/tensorflow/tensorflow/blob/master/tensorflow/python/keras/backend.py (line: 4109).
+                '''
+                outs = draw_sample(inputs, training = use_dropout)
+                return outs
+
+            # I didn't use the lambda function
+            # return lambda inputs, use_dropout: draw_sample(inputs + [int(use_dropout)])[0]
+
+            return sample_gmm
 
         else:
             raise NotImplementedError("Unrecognised loss: %s.\
