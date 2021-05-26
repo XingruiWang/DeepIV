@@ -34,6 +34,15 @@ git clone https://github.com/XingruiWang/DeepIV.git
 - To use DeepIV, you can simply **naviage to the DeepIV directory** on your machine and **run**:
 
         pip install .
+        
+        
+### Environment
+
+- `tensorflow==2.3.0`
+- `keras==2.3.1`
+- `tensorflow_probability=0.11`
+- `python=3.7`
+
 ---
 
 # DeepIV (The original document)
