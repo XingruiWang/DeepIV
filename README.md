@@ -1,8 +1,8 @@
-======
-DeepIV
-======
+
+# DeepIV
 
 
+<!--
 .. image:: https://img.shields.io/pypi/v/deepiv.svg
         :target: https://pypi.python.org/pypi/deepiv
 
@@ -16,13 +16,16 @@ DeepIV
 .. image:: https://pyup.io/repos/github/jhartford/deepiv/shield.svg
      :target: https://pyup.io/repos/github/jhartford/deepiv/
      :alt: Updates
+     
+-->
 
-**A reimplement of "deep instrument variable methods" by the LATEST tensorflow and keras**
+##### A reimplement of "deep instrument variable methods" by the LATEST tensorflow and keras
 
 (My CUDA version is 10.1, so here I use the tensorflow 2.3.0)
 
 
-### The original document
+
+## The original document
 
 A package for counterfactual prediction using deep instrument variable methods that builds on Keras_. 
 
@@ -47,8 +50,8 @@ If you use this package in your research, please cite it as::
 * Documentation: https://deepiv.readthedocs.io.
 
 
-Installation
---------
+### Installation
+
 To use DeepIV, you can simply naviage to to the DeepIV directory on your machine and run:
 
         pip install .
@@ -62,8 +65,8 @@ The package is currently under active development, so you may want to install it
 By doing this, every time you git pull an update, it will be reflected in your installation.
 
 
-Usage
---------
+### Usage
+
 The DeepIV package is simply a subclass of the Keras Model class that provides the necessary functions for fitting Deep instrumental variable models. Because of this, you can think of it as a drop-in replacement of the Keras Model object.
 The DeepIV procedure consists of two stages: 
 1. Fit the Treatment model.
@@ -80,8 +83,8 @@ Both those examples use simulated data where ground truth is known, so they can 
 DeepIV should be compatable with all Keras layers, so the Keras_ documentation is a good place to learn about designing network architectures. Feel free to file a bug report if something doesn't work.
 
 
-Credits
----------
+### Credits
+
 
 This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypackage`_ project template.
 
