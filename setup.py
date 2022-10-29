@@ -11,7 +11,7 @@ with open('HISTORY.rst') as history_file:
 
 requirements = [
     "keras==2.3.1",
-    "tensorflow==2.3",
+    "tensorflow==2.3.0",
     "sklearn", # required for comparing to linear
     "h5py" # required for saving models
 ]
@@ -55,6 +55,8 @@ setup(
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
     ],
     test_suite='tests',
     tests_require=test_requirements
