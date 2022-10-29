@@ -23,9 +23,9 @@
      
 -->
 
-##### An implementation of "deep instrument variable methods" by the LATEST tensorflow and keras
+An implementation of "deep instrument variable methods" by the LATEST tensorflow and keras
 
-(My CUDA version is 10.1, so here I use the tensorflow 2.3.0)
+My CUDA version is 10.1, so here I use the tensorflow 2.3.0.
 
 ### Installation by source
 
