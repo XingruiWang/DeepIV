@@ -1,12 +1,6 @@
 
 # DeepIV in Tensorflow 2
 
-### Description
-
-> Update: The current implementation still not finialize the optimization process when using `unbiased_gradient` as in the `experiments/demand_simulation_mnist.py`. You can still use the code in `experiments/demand_simulation.py`. See Section 3.1 in [Hartford17](http://proceedings.mlr.press/v70/hartford17a/hartford17a.pdf) for more expaination about the optimization for DeepIV. 
-
-
-<!--
 .. image:: https://img.shields.io/pypi/v/deepiv.svg
         :target: https://pypi.python.org/pypi/deepiv
 
@@ -21,7 +15,14 @@
      :target: https://pyup.io/repos/github/jhartford/deepiv/
      :alt: Updates
      
--->
+### Description
+
+> Update: The current implementation still not finialize the optimization process when using `unbiased_gradient` as in the `experiments/demand_simulation_mnist.py`. You can still use the code in `experiments/demand_simulation.py`. See Section 3.1 in [Hartford17](http://proceedings.mlr.press/v70/hartford17a/hartford17a.pdf) for more expaination about the optimization for DeepIV. 
+
+
+
+
+     
 
 An implementation of "deep instrument variable methods" by the LATEST tensorflow and keras
 
