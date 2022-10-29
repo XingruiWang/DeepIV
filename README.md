@@ -22,7 +22,7 @@ pip install git+https://github.com/XingruiWang/DeepIV.git
 
 - `tensorflow==2.3.0`
 - `keras==2.3.1`
-- `python=3.7, 3.8`
+- `python==3.7 or 3.8`
 ---
 
 # DeepIV (The original document)
