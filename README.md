@@ -8,22 +8,22 @@
 
 An implementation of "deep instrument variable methods" by the LATEST tensorflow and keras
 
-My CUDA version is 10.1, so here I use the tensorflow 2.3.0.
-
-### Installation by source
-
-- Run:
-
-```
-pip install git+https://github.com/XingruiWang/DeepIV.git
-```
         
 ### Environment
 
 - `tensorflow==2.3.0`
 - `keras==2.3.1`
 - `python==3.7 or 3.8`
+
 ---
+
+### Installation
+
+- Run:
+
+```
+pip install git+https://github.com/XingruiWang/DeepIV.git
+```
 
 # DeepIV (The original document)
 
