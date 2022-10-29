@@ -12,23 +12,17 @@ My CUDA version is 10.1, so here I use the tensorflow 2.3.0.
 
 ### Installation by source
 
-- First you need to **clone** the github source:
+- Run:
 
-```sh
-git clone https://github.com/XingruiWang/DeepIV.git
 ```
-
-- To use DeepIV, you can simply **naviage to the DeepIV directory** on your machine and **run**:
-
-        pip install .
+pip install git+https://github.com/XingruiWang/DeepIV.git
+```
         
-        
-### Environment I use
+### Environment
 
 - `tensorflow==2.3.0`
 - `keras==2.3.1`
-- `python=3.7`
-
+- `python=3.7, 3.8`
 ---
 
 # DeepIV (The original document)
